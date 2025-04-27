@@ -18,6 +18,10 @@ coverage
 .env.local
 .env.*.local
 
+# Runtime env files
+.env.client
+.env.server
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -29,3 +33,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+pert-estimating-server
+pert-estimating-client
