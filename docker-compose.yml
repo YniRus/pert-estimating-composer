@@ -21,6 +21,9 @@ services:
             - "80:80"
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/client_domain_validation.conf:/etc/nginx/client_domain_validation.conf
+            - ./nginx/allowed_client_domains:/etc/nginx/allowed_client_domains
+            - ./pert-estimating-welcome/index.html:/etc/nginx/welcome.html
         depends_on:
             - client
             - server

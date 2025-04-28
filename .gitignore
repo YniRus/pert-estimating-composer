@@ -36,3 +36,5 @@ coverage
 
 pert-estimating-server
 pert-estimating-client
+
+nginx/allowed_client_domains
