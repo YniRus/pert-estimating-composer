@@ -1,0 +1,9 @@
+services:
+    acme:
+        image: neilpang/acme.sh
+        container_name: acme.sh
+        volumes:
+            - ./acme.sh:/acme.sh
+            - ./nginx/ssl:/etc/nginx/ssl
+        environment:
+            - ACME_SH_EMAIL=${ACME_SH_EMAIL}
