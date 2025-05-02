@@ -45,6 +45,7 @@ docker-compose -f docker-compose.acme.yml run --rm acme --issue --dns \
 # Ждем, пока пользователь создаст DNS-записи
 echo "Пожалуйста, создайте указанные выше DNS TXT записи в вашей DNS-панели."
 echo "После создания записей, подождите некоторое время для их распространения (обычно 5-10 минут)."
+echo "Посмотреть распространились ли TXT записи можно по ссылке: https://www.nslookup.io/domains/_acme-challenge.$DOMAIN/dns-records/txt/"
 read -p "Нажмите Enter, когда DNS-записи будут созданы и распространены..."
 
 # Проверяем DNS-записи
