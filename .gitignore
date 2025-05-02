@@ -34,7 +34,10 @@ coverage
 
 *.tsbuildinfo
 
-pert-estimating-server
-pert-estimating-client
+pert-estimating-server/
+pert-estimating-client/
 
-nginx/allowed_client_domains
+acme.sh/
+nginx/ssl/
+
+run.pid

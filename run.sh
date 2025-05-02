@@ -37,12 +37,6 @@ else
     exit 1
 fi
 
-# Проверка наличия файла allowed_client_domains
-if [ ! -f "nginx/allowed_client_domains" ]; then
-    echo "Файл nginx/allowed_client_domains не найден!"
-    exit 1
-fi
-
 # Запуск Docker Compose
 echo "Запускаю docker-compose..."
 docker-compose up --build

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Переходим в корневую директорию проекта
-cd "$(dirname "$0")/.." || { echo "Ошибка: Не удалось перейти в корневую директорию проекта"; exit 1; }
-
 # Загружаем переменные из .env файла
 if [ -f .env ]; then
     export $(grep -v '^#' .env | xargs)
@@ -17,8 +14,12 @@ if [ -z "$ACME_SH_EMAIL" ]; then
     exit 1
 fi
 
+# Получаем домен из параметра
+DOMAIN="$1"
+
+# Проверяем, что домен задан
 if [ -z "$DOMAIN" ]; then
-    echo "Ошибка: Переменная DOMAIN не задана в файле .env"
+    echo "Ошибка: Передайте домен параметром"
     exit 1
 fi
 
@@ -34,7 +35,7 @@ echo "Получение wildcard сертификата для домена $DO
 echo "Вам потребуется создать TXT-записи в DNS вашего домена."
 
 # Запускаем acme.sh для получения wildcard сертификата
-docker-compose -f docker-compose.acme.yml run --rm  acme --issue --dns \
+docker-compose -f docker-compose.acme.yml run --rm acme --issue --dns \
   --server letsencrypt \
   -d $DOMAIN \
   -d "*.$DOMAIN" \
@@ -63,7 +64,7 @@ fi
 echo "Установка сертификата для Nginx..."
 
 # Устанавливаем сертификаты в нужную директорию для Nginx
-docker-compose -f docker-compose.acme.yml --rm acme --install-cert \
+docker-compose -f docker-compose.acme.yml run --rm acme --install-cert \
   -d $DOMAIN \
   --server letsencrypt \
   --key-file /etc/nginx/ssl/$DOMAIN/$DOMAIN.key \
@@ -75,6 +76,9 @@ if [ $? -ne 0 ]; then
     echo "Ошибка при установке сертификата!"
     exit 1
 fi
+
+# Устанавливаем правильные разрешения для созданных сертификатов
+chmod -R 755 ./nginx/ssl/$DOMAIN
 
 # Перезапускаем Nginx для применения новых сертификатов, если он не запущен
 echo "Перезапускаем Nginx для применения новых сертификатов..."

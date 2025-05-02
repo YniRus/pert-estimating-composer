@@ -32,7 +32,10 @@ dig <subdomain>.pert-online.ru  # Проверка wildcard записи
 
 ```bash
 # Запускаем скрипт получения SSL-сертификатов
-./nginx/init-wildcard-acme.sh
+./init-wildcard-acme.sh pert-online.ru
+
+# А также для поддоменов при необходимости
+./init-wildcard-acme.sh <subdomain>.pert-online.ru
 ```
 
 ### 4. Настройка переменных окружения сервисов
@@ -88,9 +91,4 @@ docker-compose logs acme
 ```bash
 ufw allow 80/tcp
 ufw allow 443/tcp
-```
-
-2. Настройте список разрешенных клиентских доменов:
-```bash
-nano nginx/allowed_client_domains
 ```
