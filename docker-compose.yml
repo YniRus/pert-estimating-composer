@@ -12,6 +12,8 @@ services:
         restart: always
         ports:
             - "8000:8000"
+        volumes:
+            - ./server-storage:/app/storage
 
     nginx:
         image: nginx:latest
