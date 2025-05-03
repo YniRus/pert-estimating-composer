@@ -1,24 +1,30 @@
 #!/bin/bash
 
+if [ ! -z "$1" ]; then
+    BRANCH="$1"
+else
+    BRANCH="master"
+fi
+
 # Клонирование репозиториев или их обновление
 if [ -d "pert-estimating-server" ]; then
-    echo "Обновляю pert-estimating-server..."
+    echo "Обновляю pert-estimating-server [$BRANCH] ..."
     cd pert-estimating-server
-    git pull origin develop || exit 1
+    git pull origin $BRANCH || exit 1
     cd ..
 else
-    echo "Скачиваю pert-estimating-server..."
-    git clone -b develop --single-branch https://github.com/YniRus/pert-estimating-server.git || exit 1
+    echo "Скачиваю pert-estimating-server [$BRANCH] ..."
+    git clone -b $BRANCH --single-branch https://github.com/YniRus/pert-estimating-server.git || exit 1
 fi
 
 if [ -d "pert-estimating-client" ]; then
-    echo "Обновляю pert-estimating-client..."
+    echo "Обновляю pert-estimating-client [$BRANCH] ..."
     cd pert-estimating-client
-    git pull origin develop || exit 1
+    git pull origin $BRANCH || exit 1
     cd ..
 else
-    echo "Скачиваю pert-estimating-client..."
-    git clone -b develop --single-branch https://github.com/YniRus/pert-estimating-client.git || exit 1
+    echo "Скачиваю pert-estimating-client [$BRANCH] ..."
+    git clone -b $BRANCH --single-branch https://github.com/YniRus/pert-estimating-client.git || exit 1
 fi
 
 # Копирование .env файлов в соответствующие директории
@@ -39,4 +45,4 @@ fi
 
 # Запуск Docker Compose
 echo "Запускаю docker-compose..."
-docker-compose up --build
+docker-compose down && docker-compose up --build

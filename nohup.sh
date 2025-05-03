@@ -6,8 +6,8 @@ if [ -f run.pid ]; then
     rm run.pid
 fi
 
-# Запуск нового процесса
-nohup bash run.sh > run.log 2>&1 &
+# Запуск нового процесса с передачей всех параметров
+nohup bash run.sh "$@" > run.log 2>&1 &
 echo $! > run.pid
 echo "Скрипт запущен с PID: $(cat run.pid)"
 
