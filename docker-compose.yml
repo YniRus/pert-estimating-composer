@@ -14,6 +14,7 @@ services:
             - "8000:8000"
         volumes:
             - ./server-storage:/app/storage
+            - ./server-assets:/app/assets
 
     nginx:
         image: nginx:latest

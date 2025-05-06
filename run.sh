@@ -10,7 +10,7 @@ fi
 if [ -d "pert-estimating-server" ]; then
     echo "Обновляю pert-estimating-server [$BRANCH] ..."
     cd pert-estimating-server
-    git pull origin $BRANCH || exit 1
+    git fetch origin $BRANCH && git reset --hard origin/$BRANCH || exit 1
     cd ..
 else
     echo "Скачиваю pert-estimating-server [$BRANCH] ..."
@@ -20,7 +20,7 @@ fi
 if [ -d "pert-estimating-client" ]; then
     echo "Обновляю pert-estimating-client [$BRANCH] ..."
     cd pert-estimating-client
-    git pull origin $BRANCH || exit 1
+    git fetch origin $BRANCH && git reset --hard origin/$BRANCH || exit 1
     cd ..
 else
     echo "Скачиваю pert-estimating-client [$BRANCH] ..."

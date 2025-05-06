@@ -37,6 +37,9 @@ coverage
 pert-estimating-server/
 pert-estimating-client/
 
+server-storage/
+server-assets/
+
 acme.sh/
 nginx/ssl/
 
