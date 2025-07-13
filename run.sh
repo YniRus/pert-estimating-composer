@@ -10,6 +10,7 @@ fi
 if [ -d "pert-estimating-server" ]; then
     echo "Обновляю pert-estimating-server [$BRANCH] ..."
     cd pert-estimating-server
+    git remote set-branches --add origin $BRANCH
     git fetch origin $BRANCH && git reset --hard origin/$BRANCH || exit 1
     cd ..
 else
@@ -20,6 +21,7 @@ fi
 if [ -d "pert-estimating-client" ]; then
     echo "Обновляю pert-estimating-client [$BRANCH] ..."
     cd pert-estimating-client
+    git remote set-branches --add origin $BRANCH
     git fetch origin $BRANCH && git reset --hard origin/$BRANCH || exit 1
     cd ..
 else
