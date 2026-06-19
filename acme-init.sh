@@ -2,7 +2,7 @@
 
 # Загружаем переменные из .env файла
 if [ -f .env ]; then
-    export $(grep -v '^#' .env | xargs)
+    export $(grep -v '^#' .env | tr -d '\r' | xargs)
 else
     echo "Ошибка: Файл .env не найден!"
     exit 1

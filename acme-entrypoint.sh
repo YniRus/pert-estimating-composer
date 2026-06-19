@@ -5,5 +5,5 @@
 # Копируем только файлы, начинающиеся с dns_, чтобы не копировать README и служебные файлы
 cp -f /custom_dnsapi/dns_*.sh /root/.acme.sh/dnsapi/ 2>/dev/null || true
 
-# Запускаем оригинальный entrypoint контейнера acme.sh с переданными аргументами
-exec /entrypoint.sh "$@"
+# Запускаем acme.sh напрямую с переданными аргументами
+exec acme.sh "$@"
