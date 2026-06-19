@@ -94,12 +94,19 @@ if [ "$FORCE_UPDATE" = true ]; then
     EXTRA_ARGS+=("--force")
 fi
 
+# Определяем, запущен ли скрипт в интерактивном терминале.
+# Если нет (например, под cron), добавляем -T к docker-compose run.
+TTY_FLAG=""
+if [ ! -t 0 ]; then
+    TTY_FLAG="-T"
+fi
+
 if [ "$PROVIDER" = "manual" ]; then
     echo "Получение wildcard сертификата для $DOMAIN в РУЧНОМ режиме..."
     echo "Вам потребуется создать TXT-записи в DNS вашего домена."
 
     # Запускаем acme.sh для получения wildcard сертификата в ручном режиме
-    docker-compose -f docker-compose.acme.yml run --rm acme --issue --dns \
+    docker-compose -f docker-compose.acme.yml run $TTY_FLAG --rm acme --issue --dns \
       --server letsencrypt \
       -d $DOMAIN \
       -d "*.$DOMAIN" \
@@ -114,7 +121,7 @@ if [ "$PROVIDER" = "manual" ]; then
     read -p "Нажмите Enter, когда DNS-записи будут созданы и распространены..."
 
     # Проверяем DNS-записи и завершаем получение сертификата
-    docker-compose -f docker-compose.acme.yml run --rm acme --renew \
+    docker-compose -f docker-compose.acme.yml run $TTY_FLAG --rm acme --renew \
       --server letsencrypt \
       -d $DOMAIN \
       -d "*.$DOMAIN" \
@@ -125,7 +132,7 @@ else
     echo "Убедитесь, что все необходимые API ключи/токены для $PROVIDER заданы в .env файле."
 
     # Запускаем acme.sh в автоматическом режиме с указанным провайдером
-    docker-compose -f docker-compose.acme.yml run --rm acme --issue --dns "$PROVIDER" \
+    docker-compose -f docker-compose.acme.yml run $TTY_FLAG --rm acme --issue --dns "$PROVIDER" \
       --server letsencrypt \
       -d $DOMAIN \
       -d "*.$DOMAIN" \
@@ -162,7 +169,7 @@ if [ "$SHOULD_INSTALL" = true ]; then
     echo "Установка сертификата для Nginx..."
 
     # Устанавливаем сертификаты в нужную директорию для Nginx
-    docker-compose -f docker-compose.acme.yml run --rm acme --install-cert \
+    docker-compose -f docker-compose.acme.yml run $TTY_FLAG --rm acme --install-cert \
       -d $DOMAIN \
       --server letsencrypt \
       --key-file "/etc/nginx/ssl/$DOMAIN/$DOMAIN.key" \
