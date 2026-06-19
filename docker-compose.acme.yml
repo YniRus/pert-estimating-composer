@@ -2,8 +2,11 @@ services:
     acme:
         image: neilpang/acme.sh
         container_name: acme.sh
+        entrypoint: /acme-entrypoint.sh
         volumes:
             - ./acme.sh:/acme.sh
             - ./nginx/ssl:/etc/nginx/ssl
-        environment:
-            - ACME_SH_EMAIL=${ACME_SH_EMAIL}
+            - ./dnsapi:/custom_dnsapi
+            - ./acme-entrypoint.sh:/acme-entrypoint.sh
+        env_file:
+            - .env

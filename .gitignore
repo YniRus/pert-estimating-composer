@@ -44,3 +44,5 @@ acme.sh/
 nginx/ssl/
 
 run.pid
+
+.agents/
